@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathPilot - Internship Tracker</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 40px; display: flex; justify-content: center; }
+        .container { background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        h2 { color: #333; margin-bottom: 20px; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background-color: #ff9900; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
+        button:hover { background-color: #e88b00; }
+        button:disabled { background-color: #cccccc; cursor: not-allowed; }
+        #response-box { margin-top: 20px; padding: 15px; background: #eef2f5; border-radius: 4px; display: none; word-break: break-all; }
+        pre { margin: 0; white-space: pre-wrap; font-family: monospace; color: #333; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>PathPilot</h2>
+    <div class="form-group">
+        <label for="student">Student Name:</label>
+        <input type="text" id="student" placeholder="e.g. Janvi">
+    </div>
+    <div class="form-group">
+        <label for="filename">Filename / Resume:</label>
+        <input type="text" id="filename" placeholder="e.g. resume.pdf">
+    </div>
+    <button id="submit-btn" onclick="submitApplication()">Submit Application</button>
+
+    <div id="response-box">
+        <strong>Server Response:</strong>
+        <pre id="output"></pre>
+    </div>
+</div>
+
+<script>
+    async function submitApplication() {
+        const student = document.getElementById('student').value.trim();
+        const filename = document.getElementById('filename').value.trim();
+        const submitBtn = document.getElementById('submit-btn');
+        const outputBox = document.getElementById('output');
+        const responseBox = document.getElementById('response-box');
+
+        if (!student || !filename) {
+            alert('Please fill in all fields');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Submitting...";
+        outputBox.innerText = "Sending request to AWS...";
+        responseBox.style.display = "block";
+
+        try {
+            const apiUrl = "https://kigpti0464.execute-api.ap-southeast-2.amazonaws.com/applications";
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename, student: student })
+            });
+
+            const data = await response.json();
+            outputBox.innerText = JSON.stringify(data, null, 2);
+        } catch (error) {
+            outputBox.innerText = "Error: " + error.message;
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Submit Application";
+        }
+    }
+</script>
+
+</body>
+</html>
