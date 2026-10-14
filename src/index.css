@@ -1,0 +1,55 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS â€” DO NOT DELETE THIS COMMENT */
+
+/* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED â€” DO NOT DELETE THIS COMMENT */
+/* END TAILWIND IMPORTS â€” ALL OTHER CSS MUST GO BELOW THIS LINE */
+
+:root {
+  --canvas: 248 250 252;
+  --card: 255 255 255;
+  --ink: 15 23 42;
+  --muted: 100 116 139;
+  --line: 226 232 240;
+  --subtle: 241 245 249;
+  --primary-soft: 238 242 255;
+  color-scheme: light;
+}
+.dark {
+  --canvas: 9 14 30;
+  --card: 17 25 46;
+  --ink: 226 232 240;
+  --muted: 148 163 184;
+  --line: 37 50 78;
+  --subtle: 27 38 64;
+  --primary-soft: 36 40 92;
+  color-scheme: dark;
+}
+html,
+body,
+#root {
+  min-height: 100%;
+}
+body {
+  background-color: rgb(var(--canvas));
+  color: rgb(var(--ink));
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible {
+  outline: 2px solid #a5b4fc;
+  outline-offset: 2px;
+}
+.thin-scroll::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: rgb(var(--line));
+  border-radius: 999px;
+}
+
+
+
